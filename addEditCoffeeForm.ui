@@ -123,7 +123,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Молотый/ в зернах</string>
+     <string>(0) Молотый/(1) в зернах</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_4">

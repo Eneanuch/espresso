@@ -5,37 +5,54 @@ from sys import argv, exit
 
 
 class AddEdit(QMainWindow):
-    def __init__(self, cur, *args):
+    def __init__(self, win, cur, con, *args):
         super().__init__()
         self.args = args
         self.cur = cur
+        self.con = con
+        self.a = 0
         uic.loadUi('addEditCoffeeForm.ui', self)
         self.add_edit.clicked.connect(self.add_edit_act)
+        self.win = win
         self.fill_ui()
 
     def add_edit_act(self):
         try:
             if self.args:
-                self.cur.execute(f'UPDATE main'
-                                 f' SET name="{self.name_sort.text()}",'
-                                 f' power={self.power.text()},'
-                                 f' ground={self.ground.text()},'
-                                 f' description="{self.desc.text()}",'
-                                 f' price={self.price.text()},'
-                                 f' volume={self.volume.text()}'
-                                 f' WHERE id={self.args[0]}').fetchall()
+                # print(*self.cur.execute("SELECT * FROM main WHERE id=1"))
+                self.a = self.cur.execute(f'UPDATE main'
+                                          f" SET name='{self.name_sort.text()}',"
+                                          f' power={self.power.text()},'
+                                          f' ground={self.ground.text()},'
+                                          f" description='{self.desc.text()}',"
+                                          f' price={self.price.text()},'
+                                          f' volume={self.volume.text()}'
+                                          f' WHERE id={self.args[0]}').fetchall()
+                # print(*self.cur.execute("SELECT * FROM main WHERE id=1"))
+            else:
+                self.a = self.cur.execute(f'INSERT INTO main '
+                                          f'(name, power, ground, description, price, volume)'
+                                          f' VALUES("{self.name_sort.text()}", {self.power.text()},'
+                                          f' {self.ground.text()}, "{self.desc.text()}",'
+                                          f' {self.price.text()}, {self.volume.text()});')
         except Exception as e:
             QMessageBox.about(self, f'Error', f'{e}')
+        self.con.commit()
+        self.close()
+        self.win.load_table()
 
     def fill_ui(self):
-        if self.args:
-            # print(self.args)
-            self.name_sort.setText(self.args[1])
-            self.power.setText(self.args[2])
-            self.ground.setText(self.args[3])
-            self.desc.setText(self.args[4])
-            self.price.setText(self.args[5])
-            self.volume.setText(self.args[6])
+        try:
+            if self.args:
+                # print(self.args)
+                self.name_sort.setText(self.args[1])
+                self.power.setText(self.args[2])
+                self.ground.setText(self.args[3])
+                self.desc.setText(self.args[4])
+                self.price.setText(self.args[5])
+                self.volume.setText(self.args[6])
+        except Exception as e:
+            QMessageBox.about(self, f'Error', f'{e}')
 
 
 class Main(QMainWindow):
@@ -56,12 +73,12 @@ class Main(QMainWindow):
         self.b_edit.clicked.connect(self.b_edit_act)
 
     def b_add_act(self):
-        self.a = AddEdit(cur=self.cur)
+        self.a = AddEdit(self, cur=self.cur, con=self.con)
         self.a.show()
 
     def b_edit_act(self):
         # print([self.main_table.item(self.main_table.currentRow(), i).text() for i in range(7)])
-        self.a = AddEdit(self.cur, *[self.main_table.item(self.main_table.currentRow(), i).text() for i in range(7)])
+        self.a = AddEdit(self, self.cur, self.con, *[self.main_table.item(self.main_table.currentRow(), i).text() for i in range(7)])
         self.a.show()
 
     def load_table(self):
