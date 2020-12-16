@@ -17,13 +17,13 @@ class AddEdit(QMainWindow):
         try:
             if self.args:
                 self.cur.execute(f'UPDATE main'
-                                 f' SET name={self.args[1]},'
-                                 f' power={self.args[2]},'
-                                 f' ground={self.args[3]},'
-                                 f' description={self.args[4]},'
-                                 f' price={self.args[5]},'
-                                 f' volume={self.args[6]}'
-                                 f' WHERE id={self.args[0]}')
+                                 f' SET name="{self.name_sort.text()}",'
+                                 f' power={self.power.text()},'
+                                 f' ground={self.ground.text()},'
+                                 f' description="{self.desc.text()}",'
+                                 f' price={self.price.text()},'
+                                 f' volume={self.volume.text()}'
+                                 f' WHERE id={self.args[0]}').fetchall()
         except Exception as e:
             QMessageBox.about(self, f'Error', f'{e}')
 
