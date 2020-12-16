@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>600</height>
+    <height>599</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -22,6 +22,45 @@
       <width>781</width>
       <height>511</height>
      </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="b_add">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>530</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Add</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="b_edit">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>530</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Edit</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="l_status">
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>530</y>
+      <width>561</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>OK</string>
     </property>
    </widget>
   </widget>
