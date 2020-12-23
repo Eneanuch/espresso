@@ -77,9 +77,11 @@ class Main(QMainWindow):
         self.a.show()
 
     def b_edit_act(self):
-        # print([self.main_table.item(self.main_table.currentRow(), i).text() for i in range(7)])
-        self.a = AddEdit(self, self.cur, self.con, *[self.main_table.item(self.main_table.currentRow(), i).text() for i in range(7)])
-        self.a.show()
+        try:
+            self.a = AddEdit(self, self.cur, self.con, *[self.main_table.item(self.main_table.currentRow(), i).text() for i in range(7)])
+            self.a.show()
+        except Exception as e:
+            pass
 
     def load_table(self):
         self.con = connect("coffee.sqlite")
